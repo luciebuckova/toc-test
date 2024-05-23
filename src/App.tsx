@@ -1,7 +1,8 @@
-import './App.css'
-import {tableOfContentsItems} from "./components/TableOfContents/data/tableOfContentsItems.ts";
-import {useTableOfContents} from "./components/TableOfContents/useTableOfContents.ts";
-import {TableOfContents} from "./components/TableOfContents/TableOfContents.tsx";
+import './App.css';
+// import { tableOfContentsItems } from './components/TableOfContents/data/tableOfContentsItems.ts';
+import { NOZ_TOC_ITEMS_MOCK as tableOfContentsItems } from './components/TableOfContents/data/NOZ_TOC_ITEMS_MOCK.ts';
+import { useTableOfContents } from './components/TableOfContents/useTableOfContents.ts';
+import { TableOfContents } from './components/TableOfContents/TableOfContents.tsx';
 
 function App() {
     const items = tableOfContentsItems;
@@ -14,4 +15,4 @@ function App() {
     );
 }
 
-export default App
+export default App;
