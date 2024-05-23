@@ -7,6 +7,7 @@ type TableOfContentsArg = {
 
 export const useTableOfContents = ({ items }: TableOfContentsArg) => {
     const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
+    const [allExpanded, setAllExpanded] = useState(false);
 
     // map for quicker access to children
     const itemsMap = useMemo(() => {
@@ -75,5 +76,14 @@ export const useTableOfContents = ({ items }: TableOfContentsArg) => {
         setExpandedItems(new Set());
     }, []);
 
-    return { itemsMap, onClick, isExpanded, expandAll, closeAll };
+    const handleExpandCollapseAll = useCallback(() => {
+        if (allExpanded) {
+            closeAll();
+        } else {
+            expandAll();
+        }
+        setAllExpanded(!allExpanded);
+    }, [allExpanded, expandAll, closeAll]);
+
+    return { itemsMap, onClick, isExpanded, allExpanded, handleExpandCollapseAll };
 };

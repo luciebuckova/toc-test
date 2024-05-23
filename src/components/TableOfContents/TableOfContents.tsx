@@ -1,15 +1,13 @@
-import { FC, memo, useState, useCallback } from 'react';
+import { FC, memo } from 'react';
 import { useTableOfContents } from './useTableOfContents.ts';
 import { ContentItem } from './types/ContentItem.ts';
 
 type TableOfContentsProps = ReturnType<typeof useTableOfContents>;
-
-const RenderItem: FC<{
+type RenderItemProps = Pick<TableOfContentsProps, 'itemsMap' | 'onClick' | 'isExpanded'> & {
     item: ContentItem;
-    itemsMap: Map<string, ContentItem[]>;
-    onClick: (item: ContentItem) => () => void;
-    isExpanded: (item: ContentItem) => boolean;
-}> = memo(({ item, itemsMap, onClick, isExpanded }) => {
+};
+
+const RenderItem: FC<RenderItemProps> = memo(({ item, itemsMap, onClick, isExpanded }) => {
     const children = itemsMap.get(item.id) || [];
     const hasChildren = children.length > 0;
 
@@ -36,18 +34,13 @@ const RenderItem: FC<{
     );
 });
 
-export const TableOfContents: FC<TableOfContentsProps> = ({ itemsMap, onClick, isExpanded, expandAll, closeAll }) => {
-    const [allExpanded, setAllExpanded] = useState(false);
-
-    const handleExpandCollapseAll = useCallback(() => {
-        if (allExpanded) {
-            closeAll();
-        } else {
-            expandAll();
-        }
-        setAllExpanded(!allExpanded);
-    }, [allExpanded, expandAll, closeAll]);
-
+export const TableOfContents: FC<TableOfContentsProps> = ({
+    itemsMap,
+    onClick,
+    isExpanded,
+    allExpanded,
+    handleExpandCollapseAll,
+}) => {
     return (
         <div>
             <div style={{ display: 'flex', justifyContent: 'end', marginBottom: 18 }}>
